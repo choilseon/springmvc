@@ -1,7 +1,9 @@
 package hello.springmvc.basic.request;
 
+import hello.springmvc.basic.HelloData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,6 +77,23 @@ public class RequestParamController {
     @RequestMapping("/request-param-map")
     public String requestParamMap(@RequestParam Map<String, Object> paramMap) {
         log.info("username={}, age={}", paramMap.get("username"), paramMap.get("age"));
+        return "ok";
+    }
+
+    // 요청 파라미터의 이름으로 HelloData 객체 프로퍼티 찾고 해당 프로퍼티의 setter를 호출하여 파라미터의 값을 바인딩
+    // 예를들어 age처럼 숫자가 들어가야할 곳에 문자를 넣으면 BindingException 발생
+    @ResponseBody
+    @RequestMapping("/model-attribute-v1")
+    public String modelAttributeV1(@ModelAttribute HelloData helloData) {
+        log.info("helloData={}", helloData);
+        return "ok";
+    }
+
+    // @ModelAttribute 생략 가능
+    @ResponseBody
+    @RequestMapping("/model-attribute-v2")
+    public String modelAttributeV2(HelloData helloData) {
+        log.info("helloData={}", helloData);
         return "ok";
     }
 }
